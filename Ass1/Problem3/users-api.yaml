@@ -1,0 +1,220 @@
+openapi: "3.0.1"
+
+info:
+  title: A Virtual Learning Application API
+  version: "0.0.1"
+
+servers:
+  - url: http://localhost:8080/vle/api/v1
+
+
+paths:
+  /students:
+    get:
+      summary: Get all students added to the application
+      operationId: get_all_students
+      description: Returns all students registered for the application
+      responses:
+        '200':
+          description: "A list of students"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Student"
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+    post:
+      summary: Insert a new Student
+      operationId: insert
+      description: Create a new Student and add it to the collection of students
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Student'
+      responses:
+        '201':
+          description: Student successfully created
+          content:
+            application/json:
+              schema:
+                properties:
+                  Studentid:
+                    type: string
+                    description: the username of the Student newly created
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+
+
+  /students/{username}:
+    parameters:
+      - name: username
+        in: path
+        description: username of the Student
+        schema:
+          type: string
+        required: true
+    get:
+      summary: Get a single upser
+      operationId: get_Student
+      description: Returns a single Student based on the username
+      responses:
+        '200':
+          description: Student response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Student'
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+    put:
+      summary: Update an existing Student
+      operationId: update_Student
+      description: updates an existing Student
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Student"
+      responses:
+        '200':
+          description: 'Student was successfully updated'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Student"
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+    delete:
+      summary: Delete an existing Student
+      operationId: delete_Student
+      description: deletes an existing Student
+      responses:
+        '204':
+          description: Student was successfully deleted
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+
+  /coursedetails:
+    get:
+      summary: Get all course details added to the application
+      operationId: get_all_courses
+      description: Returns all courses registered for the application
+      responses:
+        '200':
+          description: "A list of courses"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/courseinfo"
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+    post:
+      summary: Insert a new course
+      operationId: insert_course
+      description: Create a new course and add it to the collection of courses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/courseinfo'
+      responses:
+        '201':
+          description: Course successfully created
+          content:
+            application/json:
+              schema:
+                properties:
+                  Courseid:
+                    type: string
+                    description: the username of the Course newly created
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+
+# copied straight from students{username}
+  /coursedetails/{course_code}:
+    parameters:
+      - name: course_code
+        in: path
+        description: course code of the Course
+        schema:
+          type: string
+        required: true
+    get:
+      summary: Get a single course
+      operationId: get_Course
+      description: Returns a single Course based on the code
+      responses:
+        '200':
+          description: Course response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/courseinfo'
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+    put:
+      summary: Update an existing Course
+      operationId: update_Course
+      description: updates an existing Course
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/courseinfo"
+      responses:
+        '200':
+          description: 'Course was successfully updated'
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/courseinfo"
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+    delete:
+      summary: Delete an existing Course
+      operationId: delete_Course
+      description: deletes an existing Course
+      responses:
+        '204':
+          description: Course was successfully deleted
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+# ends here
+components:
+  schemas:
+    Student:
+      title: Student Description
+      type: object
+      properties:
+        username:
+          type: string
+          description: the Student name of the Student
+        firstname:
+          type: string
+          description: the first name of the Student
+        lastname:
+          type: string
+          description: the last name of the Student
+        email:
+          type: string
+          description: the email address of the Student
+    courseinfo:
+      type: object
+      properties:
+        course_code:
+          type: string
+          example: "DSA621S"
+          description: the course code of the student
+        course_name:
+          type: string
+          example: "Distributed Systems and Applications"
+          description: the course name of the student
+        course_mark:
+          type: string
+          example: "B+"
+          description: the course mark of the student

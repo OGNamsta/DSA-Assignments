@@ -1,0 +1,161 @@
+openapi: 3.0.0
+info:
+  title: Learning API
+  description: Virtual learning environment API
+  contact:
+    name: Jane Smith
+    email: jane.smith@example.com
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:9090/Learners/'
+paths:
+  /learner{username}:
+    description: Learner Resource
+    get:
+      operationId: get_user
+      description: Operation to Fetch Learner Profile
+      parameters:
+        - in: path
+          name: username
+          required: true
+          schema:
+            type: string
+            example: Jane15
+      responses:
+        200:
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/learner'
+  /learner:
+    post:
+      operationId: insert
+      description: Add new learner
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/learner'
+      responses:
+        201:
+          description: Record successfully added
+    put:
+      operationId: put
+      description: Update learner profile
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/learner'
+      responses:
+        200:
+          description: Record successfully updated
+  /learningMaterial{username}:
+    description: Learning material resource
+    get:
+      operationId: get_material
+      parameters:
+        - in: path
+          name: username
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                properties:
+                  course:
+                    type: string
+                    example: "Algorithms"
+                  learning_objects:
+                    type: object
+                    properties:
+                      required:
+                        type: object
+                        properties:
+                          audio:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/topic'
+                          text:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/topic'
+                          video:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/topic'
+                      suggested:
+                        type: object
+                        properties:
+                          audio:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/topic'
+                          text:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/topic'
+                          video:
+                            type: array
+                            items:
+                              $ref: '#/components/schemas/topic'
+                        
+
+components:
+  schemas:
+    learner:
+      type: object
+      properties:
+        username:
+          type: string
+          example: "Jane15"
+        lastname:
+          type: string
+          example: "Smith"
+        firstname:
+          type: string
+          example: "Jane"
+        preferred_formats:
+          type: array
+          items:
+            type: string
+            example: "audio"
+        past_subjects:
+          type: array
+          items:
+            properties:
+              course:
+                type: string
+                example: "Algorithms"
+              score:
+                type: string
+                example: "B+"
+    topic:
+      type: object
+      properties:
+        name:
+          type: string
+          example: "topic 1"
+        description:
+          type: string
+          example: "description 1"
+        difficulty:
+          type: string
+          example: "difficulty 1"
+
+
+
+
+
+
+
+
+
+
+
+

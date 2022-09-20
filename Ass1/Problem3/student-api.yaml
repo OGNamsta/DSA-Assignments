@@ -1,0 +1,251 @@
+openapi: "3.0.1"
+
+info:
+  title: Student API
+  version: 1.0.1
+
+servers:
+  - url: "http://localhost:8080/vle/api/v1"
+
+paths:
+  /student:
+    get:
+      summary: Get all students added to the application
+      operationId: get_all
+      description: Returns all students registered for the application
+      responses:
+        '200':
+          description: "A list of students"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/student"
+
+    post:
+      summary: Insert a new student
+      operationId: insert_student
+      description: Create a new student and add it to the collection of students
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/student'
+      responses:
+        '201':
+          description: Student successfully created
+          content:
+            application/json:
+              schema:
+                properties:
+                  userid:
+                    type: string
+                    description: the username of the user newly created
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+
+  /students{username}:
+    parameters:
+      - name: username
+        in: path
+        description: Operation to Fetch Student Profile
+        schema:
+          type: string
+          example: John16
+        required: true
+    get:
+      summary: Get a single upser
+      operationId: get_user
+      description: Returns a single student based on the username
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/student'
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+
+    put:
+      summary: Update an existing student
+      operationId: update_student
+      description: updates an existing student
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/student"
+      responses:
+        '200':
+          description: Student was successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/student"
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+    delete:
+      summary: Delete an existing student
+      operationId: delete_student
+      description: deletes an existing student
+      responses:
+        '204':
+          description: Student was successfully deleted
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+
+  /coursedetails:
+    get:
+      summary: Get all course details added to the application
+      operationId: get_all_courses
+      description: Returns all courses registered for the application
+      responses:
+        '200':
+          description: "A list of courses"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/courseinfo"
+
+    post:
+      summary: Insert a new course
+      operationId: insert_course
+      description: Create a new user and add it to the collection of users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/courseinfo'
+      responses:
+        '201':
+          description: Course successfully created
+          content:
+            application/json:
+              schema:
+                properties:
+                  userid:
+                    type: string
+                    description: the course_code of the course newly created
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+
+  /coursedetail{course_code}:
+    parameters:
+      - name: course_code
+        in: path
+        description: Operation to fetch specific Course Detail
+        required: true
+        schema:
+          type: string
+          example: DSA621S
+    description: Course Detail resource
+    get:
+      operationId: getSpecificCourse
+      responses:
+        '200':
+          description: Success Response
+          content:
+            application/json:
+              schema:
+                properties:
+                  course:
+                    type: string
+                    example: "DSA621S"
+                  course_objects:
+                    type: object
+                    properties:
+                      required:
+                        type: object
+                        properties:
+                          course_code:
+                            type: object
+                            items:
+                              $ref: "#/components/schemas/courseinfo"
+                          course_name:
+                            type: object
+                            items:
+                              $ref: "#/components/schemas/courseinfo"
+                          course_mark:
+                            type: object
+                            items:
+                              $ref: "#/components/schemas/courseinfo"
+
+    put:
+      summary: Update an existing course
+      operationId: update_course
+      description: updates an existing course
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/courseinfo"
+      responses:
+        '200':
+          description: Student was successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/student"
+        default:
+          $ref: "#/components/responses/ErrorResponse"
+
+components:
+  schemas:
+    student:
+      title: Student Description
+      type: object
+      properties:
+        username:
+          type: string
+          example: "John16"
+          description: the username of the student
+        lastname:
+          type: string
+          example: "Doe"
+          description: the last name of the student
+        firstname:
+          type: string
+          example: "John"
+          description: the first name of the student
+
+    courseinfo:
+      type: object
+      properties:
+        course_code:
+          type: string
+          example: "DSA621S"
+          description: the course code of the student
+        course_name:
+          type: string
+          example: "Distributed Systems and Applications"
+          description: the course name of the student
+        course_mark:
+          type: string
+          example: "B+"
+          description: the course mark of the student
+
+    Error:
+      type: object
+      properties:
+        errorType:
+          type: string
+          enum:
+            - BadRequest
+
+            - Not Found
+
+            - InternalServerError
+        message:
+          type: string
+
+  responses:
+    ErrorResponse:
+      description: Error handling student
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"

@@ -1,0 +1,63 @@
+syntax = "proto3";
+package google.protobuf;
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+/*create_courses, where an administrator creates several courses, defines the number of assignments for each course and sets the weight for each assignment. This operation returns the code for each created course. It is bidirectional streaming;
+* assign_courses, where an administrator assigns each created course to an assessor;
+* create_users, where several users, each with a specific profile, are created. The users are streamed to the server, and the response is returned once the operation completes;
+* submit_assignments, where a learner submits one or several assignments for one or multiple courses he/she registered for. The assignments are streamed to the server, and the response is received once the operation completes;
+* request_assignments, where an assessor requests submitted assignments for a course he/she has been allocated. Note that an assignment can be marked only once. The function should stream back all assignments that have not been marked yet;
+* submit_marks, where an assessor submits the marks for assignments;
+* register, where a learner registers for one or several courses. All the courses are streamed to the server, and the result is returned once the operation completes;
+*/
+
+service courseService {
+    rpc getCourse (CourseRequest) returns (CourseResponse) {}
+    rpc getCourseList (google.protobuf.Empty) returns (CourseListResponse) {}
+    rpc addCourse (CourseRequest) returns (google.protobuf.Empty) {}
+    rpc updateCourse (CourseRequest) returns (google.protobuf.Empty) {}
+    rpc deleteCourse (google.protobuf.StringValue) returns (google.protobuf.Empty) {}
+    }
+
+service userService {
+    rpc getUser (UserRequest) returns (UserResponse) {}
+    rpc getUserList (google.protobuf.Empty) returns (UserListResponse) {}
+    rpc addUser (UserRequest) returns (google.protobuf.Empty) {}
+    rpc updateUser (UserRequest) returns (google.protobuf.Empty) {}
+    rpc deleteUser (google.protobuf.StringValue) returns (google.protobuf.Empty) {}
+    }
+
+message CourseRequest {
+    google.protobuf.StringValue course_code = 1;
+    google.protobuf.StringValue course_name = 2;
+    google.protobuf.StringValue course_description = 3;
+    google.protobuf.StringValue course_dept = 4;
+    google.protobuf.StringValue course_location = 5;
+    google.protobuf.StringValue course_fee = 6;
+    google.protobuf.StringValue course_credit = 7;
+    google.protobuf.StringValue course_nqf = 8;
+}
+
+message CourseResponse {
+    google.protobuf.StringValue course_code = 1;
+}
+
+message CourseListResponse {
+    repeated CourseRequest course = 1;
+}
+
+message UserRequest {
+    google.protobuf.StringValue user_id = 1;
+    google.protobuf.StringValue user_name = 2;
+    google.protobuf.StringValue user_surname = 3;
+    google.protobuf.StringValue user_email = 4;
+    google.protobuf.StringValue user_password = 5;
+    google.protobuf.StringValue user_role = 6;
+}
+
+message UserResponse {
+    google.protobuf.StringValue user_id = 1;
+}
+message UserListResponse {
+    repeated UserRequest user = 1;
+}
