@@ -1,0 +1,35 @@
+{
+	"info": {
+		"_postman_id": "cfa31c1c-d26f-4879-96a9-cce64e4390d6",
+		"name": "dsa1P2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "localhost:9090/graphql",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation ($region: String!,\r\n        $date: String!, \r\n        $deaths: Int!, \r\n        $confirmed_cases: Int!, \r\n        $recoveries: Int!, \r\n        $tested: Int!){\r\n    updatecovStat(region: $region,\r\n        date: $date, \r\n        deaths: $deaths, \r\n        confirmed_cases: $confirmed_cases, \r\n        recoveries: $recoveries, \r\n        tested: $tested){\r\n        date, \r\n        deaths, \r\n        confirmed_cases, \r\n        recoveries, \r\n        tested,\r\n        region\r\n    }\r\n}",
+						"variables": "{\r\n    \"region\": \"Khomas\",\r\n    \"date\": \"20/09/2022\", \r\n    \"deaths\": 200, \r\n    \"confirmed_cases\": 1000, \r\n    \"recoveries\": 30,         \r\n    \"tested\": 10000\r\n}"
+					}
+				},
+				"url": {
+					"raw": "localhost:9090/graphql",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"graphql"
+					]
+				},
+				"description": "DSA Ass1 Problem 2. GraphQL post function to update region info"
+			},
+			"response": []
+		}
+	]
+}
