@@ -1,0 +1,27 @@
+mutation ($date: String!, 
+        $deaths: Int!, 
+        $confirmed_cases: Int!, 
+        $recoveries: Int!, 
+        $tested: Int!){
+    updateStatistic(date: $date, 
+        deaths: $deaths, 
+        confirmed_cases: $confirmed_cases, 
+        recoveries: $recoveries, 
+        tested: $tested){
+        date, 
+        deaths, 
+        confirmed_cases, 
+        recoveries, 
+        tested,
+        region
+    }
+}
+
+variables
+{
+    "date": "20/09/2022", 
+    "deaths": 200, 
+    "confirmed_cases": 1000, 
+    "recoveries": 30,         
+    "tested": 10000
+}

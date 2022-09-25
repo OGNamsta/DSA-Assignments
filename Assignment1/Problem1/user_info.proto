@@ -1,7 +1,7 @@
 syntax = "proto3";
-package google.protobuf;
 import "google/protobuf/empty.proto";
-import "google/protobuf/wrappers.proto";
+
+
 /*create_courses, where an administrator creates several courses, defines the number of assignments for each course and sets the weight for each assignment. This operation returns the code for each created course. It is bidirectional streaming;
 * assign_courses, where an administrator assigns each created course to an assessor;
 * create_users, where several users, each with a specific profile, are created. The users are streamed to the server, and the response is returned once the operation completes;
@@ -12,52 +12,55 @@ import "google/protobuf/wrappers.proto";
 */
 
 service courseService {
-    rpc getCourse (CourseRequest) returns (CourseResponse) {}
-    rpc getCourseList (google.protobuf.Empty) returns (CourseListResponse) {}
-    rpc addCourse (CourseRequest) returns (google.protobuf.Empty) {}
-    rpc updateCourse (CourseRequest) returns (google.protobuf.Empty) {}
-    rpc deleteCourse (google.protobuf.StringValue) returns (google.protobuf.Empty) {}
-    }
-
-service userService {
-    rpc getUser (UserRequest) returns (UserResponse) {}
-    rpc getUserList (google.protobuf.Empty) returns (UserListResponse) {}
-    rpc addUser (UserRequest) returns (google.protobuf.Empty) {}
-    rpc updateUser (UserRequest) returns (google.protobuf.Empty) {}
-    rpc deleteUser (google.protobuf.StringValue) returns (google.protobuf.Empty) {}
-    }
-
-message CourseRequest {
-    google.protobuf.StringValue course_code = 1;
-    google.protobuf.StringValue course_name = 2;
-    google.protobuf.StringValue course_description = 3;
-    google.protobuf.StringValue course_dept = 4;
-    google.protobuf.StringValue course_location = 5;
-    google.protobuf.StringValue course_fee = 6;
-    google.protobuf.StringValue course_credit = 7;
-    google.protobuf.StringValue course_nqf = 8;
+    rpc create_courses(stream Course) returns (stream CourseCode);
+    rpc assign_courses(stream CourseAssessor) returns (google.protobuf.Empty);
+    rpc create_users(stream User) returns (google.protobuf.Empty);
+    rpc submit_assignments(stream Assignment) returns (google.protobuf.Empty);
+    rpc request_assignments(CourseCode) returns (stream Assignment);
+    rpc submit_marks(stream Mark) returns (google.protobuf.Empty);
+    rpc register(stream CourseCode) returns (google.protobuf.Empty);    
 }
 
-message CourseResponse {
-    google.protobuf.StringValue course_code = 1;
+message Course {
+    string name = 1;
+    int32 assignments = 2;
+    repeated AssignmentWeight assignment_weights = 3;
 }
 
-message CourseListResponse {
-    repeated CourseRequest course = 1;
+message CourseCode {
+    string code = 1;
 }
 
-message UserRequest {
-    google.protobuf.StringValue user_id = 1;
-    google.protobuf.StringValue user_name = 2;
-    google.protobuf.StringValue user_surname = 3;
-    google.protobuf.StringValue user_email = 4;
-    google.protobuf.StringValue user_password = 5;
-    google.protobuf.StringValue user_role = 6;
+message CourseAssessor {
+    string code = 1;
+    string assessor = 2;
 }
 
-message UserResponse {
-    google.protobuf.StringValue user_id = 1;
+message User {
+    string username = 1;
+    string password = 2;
+    Profile profile = 3;
 }
-message UserListResponse {
-    repeated UserRequest user = 1;
+
+enum Profile {
+    ADMINISTRATOR = 0;
+    ASSESSOR = 1;
+    LEARNER = 2;
+}
+
+message Assignment {
+    string course_code = 1;
+    string username = 2;
+    string content = 3;
+}
+
+message AssignmentWeight {
+    string name = 1;
+    int32 weight = 2;
+}
+
+message Mark {
+    string course_code = 1;
+    string username = 2;
+    int32 mark = 3;
 }

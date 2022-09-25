@@ -1,0 +1,8 @@
+[package]
+distribution = "slbeta3"
+
+[build-options]
+observabilityIncluded = true
+
+[[platform.java11.dependency]]
+path = "C://Ballerina modules//module-ballerinax-java.jdbc-1.5.0"
