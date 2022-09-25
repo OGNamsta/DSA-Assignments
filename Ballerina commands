@@ -1,0 +1,62 @@
+Ballerina OpenAPI Support
+https://www.youtube.com/watch?v=cJwstQ8yynk
+
+https://ballerina.io/learn/openapi-tool/
+
+https://ballerina.io/learn/distinctive-language-features/network-interaction/
+
+bal openapi -i users-api.yaml --mode service
+
+curl -X GET -H "Content-Type:application/json" http://localhost:8080/vle/api/v1/users
+
+https://ballerina.io/learn/by-example/graphql-mutations/
+
+https://swagger.io/docs/specification/basic-structure/
+
+https://lib.ballerina.io/ballerina/grpc/latest
+
+https://ballerina.io/learn/cli-documentation/grpc/
+
+https://ballerina.io/learn/by-example/grpc-simple/
+
+bal grpc --input helo.proto  --output service
+
+bal grpc --input user_info.proto  --output service --mode service
+
+bal grpc --input user_info.proto  --output client --mode client
+
+Problem 3
+
+
+GET ALL STUDENTS
+curl -X 'GET' \
+  'http://localhost:9090/Students/student' \
+  -H 'accept: application/jon'
+  
+INSERT NEW STUDENT
+curl -X 'POST' \
+  'http://localhost:9090/Students/student' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "username": "TK12",
+  "lastname": "Kat",
+  "firstname": "Tengeevandu"
+}'
+
+GET SPECIFIC STUDENT
+Get Student{username}
+curl -X 'GET' \
+  'http://localhost:9090/Students/studentTengee12' \
+  -H 'accept: application/json'
+
+UPDATE USER
+curl -X 'PUT' \
+  'http://localhost:9090/Students/studentJohn16' \
+  -H 'accept: application/json' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "username": "Tengee12",
+  "lastname": "Katjiuongua",
+  "firstname": "Tengee"
+}'
