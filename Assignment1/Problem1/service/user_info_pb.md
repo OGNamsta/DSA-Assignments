@@ -1,7 +1,8 @@
 import ballerina/grpc;
+import ballerina/protobuf.types.wrappers;
 import ballerina/protobuf.types.empty;
 
-public isolated client class courseServiceClient {
+public isolated client class courseserviceClient {
     *grpc:AbstractClientEndpoint;
 
     private final grpc:Client grpcClient;
@@ -12,62 +13,62 @@ public isolated client class courseServiceClient {
     }
 
     isolated remote function assign_courses() returns Assign_coursesStreamingClient|grpc:Error {
-        grpc:StreamingClient sClient = check self.grpcClient->executeClientStreaming("courseService/assign_courses");
+        grpc:StreamingClient sClient = check self.grpcClient->executeClientStreaming("courseservice/assign_courses");//courseService to courseservice
         return new Assign_coursesStreamingClient(sClient);
     }
 
     isolated remote function create_users() returns Create_usersStreamingClient|grpc:Error {
-        grpc:StreamingClient sClient = check self.grpcClient->executeClientStreaming("courseService/create_users");
+        grpc:StreamingClient sClient = check self.grpcClient->executeClientStreaming("courseservice/create_users");//courseService to courseservice
         return new Create_usersStreamingClient(sClient);
     }
 
     isolated remote function submit_assignments() returns Submit_assignmentsStreamingClient|grpc:Error {
-        grpc:StreamingClient sClient = check self.grpcClient->executeClientStreaming("courseService/submit_assignments");
+        grpc:StreamingClient sClient = check self.grpcClient->executeClientStreaming("courseservice/submit_assignments");//courseService to courseservice
         return new Submit_assignmentsStreamingClient(sClient);
     }
 
     isolated remote function submit_marks() returns Submit_marksStreamingClient|grpc:Error {
-        grpc:StreamingClient sClient = check self.grpcClient->executeClientStreaming("courseService/submit_marks");
+        grpc:StreamingClient sClient = check self.grpcClient->executeClientStreaming("courseservice/submit_marks");//courseService to courseservice
         return new Submit_marksStreamingClient(sClient);
     }
 
     isolated remote function register() returns RegisterStreamingClient|grpc:Error {
-        grpc:StreamingClient sClient = check self.grpcClient->executeClientStreaming("courseService/register");
+        grpc:StreamingClient sClient = check self.grpcClient->executeClientStreaming("courseservice/register");//courseService to courseservice
         return new RegisterStreamingClient(sClient);
     }
-
-    isolated remote function request_assignments(CourseCodeRecord|ContextCourseCode req) returns stream<Assignment, grpc:Error?>|grpc:Error {
+    //isolated remote function request_assignments(CourseCodeRecord|ContextCourseCode req)
+    isolated remote function request_assignments(string|wrappers:ContextString req) returns stream<Assignment, grpc:Error?>|grpc:Error {
         map<string|string[]> headers = {};
-        CourseCodeRecord message;
-        if req is ContextCourseCode {
+        string message;//CourseCodeRecord message;
+        if req is wrappers:ContextString {//ContextCourseCode
             message = req.content;
             headers = req.headers;
         } else {
             message = req;
         }
-        var payload = check self.grpcClient->executeServerStreaming("courseService/request_assignments", message, headers);
+        var payload = check self.grpcClient->executeServerStreaming("courseservice/request_assignments", message, headers);//courseService to courseservice
         [stream<anydata, grpc:Error?>, map<string|string[]>] [result, _] = payload;
         AssignmentStream outputStream = new AssignmentStream(result);
         return new stream<Assignment, grpc:Error?>(outputStream);
     }
-
-    isolated remote function request_assignmentsContext(CourseCodeRecord|ContextCourseCode req) returns ContextAssignmentStream|grpc:Error {
+    //isolated remote function request_assignmentsContext(CourseCodeRecord|ContextCourseCode req)
+    isolated remote function request_assignmentsContext(string|wrappers:ContextString req) returns ContextAssignmentStream|grpc:Error {
         map<string|string[]> headers = {};
-        CourseCodeRecord message;
-        if req is ContextCourseCode {
+        string message;//CourseCodeRecord message
+        if req is wrappers:ContextString {//ContextCourseCode to wrappers:ContextString
             message = req.content;
             headers = req.headers;
         } else {
             message = req;
         }
-        var payload = check self.grpcClient->executeServerStreaming("courseService/request_assignments", message, headers);
+        var payload = check self.grpcClient->executeServerStreaming("courseservice/request_assignments", message, headers);//courseService to courseservice
         [stream<anydata, grpc:Error?>, map<string|string[]>] [result, respHeaders] = payload;
         AssignmentStream outputStream = new AssignmentStream(result);
         return {content: new stream<Assignment, grpc:Error?>(outputStream), headers: respHeaders};
     }
 
     isolated remote function create_courses() returns Create_coursesStreamingClient|grpc:Error {
-        grpc:StreamingClient sClient = check self.grpcClient->executeBidirectionalStreaming("courseService/create_courses");
+        grpc:StreamingClient sClient = check self.grpcClient->executeBidirectionalStreaming("courseservice/create_courses");//courseService to courseservice
         return new Create_coursesStreamingClient(sClient);
     }
 }
@@ -87,22 +88,24 @@ public client class Assign_coursesStreamingClient {
         return self.sClient->send(message);
     }
 
-    isolated remote function receive() returns grpc:Error? {
+    isolated remote function receiveString() returns string|grpc:Error? {//receive to receiveString. returns grpc:Error? to returns string|grpc:Error?
         var response = check self.sClient->receive();
         if response is () {
             return response;
         } else {
-            [anydata, map<string|string[]>] [payload, headers] = response;
+            [anydata, map<string|string[]>] [payload, _] = response;//payload, headers to payload, _
+            return payload.toString(); //previously blank
         }
     }
-
-    isolated remote function receiveContextNil() returns empty:ContextNil|grpc:Error? {
+    //isolated remote function receiveContextNil() returns empty:ContextNil|grpc:Error? {
+    isolated remote function receiveContextString() returns wrappers:ContextString|grpc:Error? {
         var response = check self.sClient->receive();
         if response is () {
             return response;
         } else {
             [anydata, map<string|string[]>] [payload, headers] = response;
-            return {headers: headers};
+            return {content: payload.toString(), headers: headers};
+            //return {headers: headers};
         }
     }
 
@@ -126,26 +129,29 @@ public client class Create_usersStreamingClient {
         return self.sClient->send(message);
     }
 
+
     isolated remote function sendContextUser(ContextUser message) returns grpc:Error? {
         return self.sClient->send(message);
     }
-
-    isolated remote function receive() returns grpc:Error? {
+    //isolated remote function receive() returns grpc:Error? {
+    isolated remote function receiveString() returns string|grpc:Error? {
         var response = check self.sClient->receive();
         if response is () {
             return response;
         } else {
-            [anydata, map<string|string[]>] [payload, headers] = response;
+            [anydata, map<string|string[]>] [payload, _] = response;//payload, headers to payload, _
+            return payload.toString();//previously blank
         }
     }
-
-    isolated remote function receiveContextNil() returns empty:ContextNil|grpc:Error? {
+    //isolated remote function receiveContextNil() returns empty:ContextNil|grpc:Error? {
+    isolated remote function receiveContextString() returns wrappers:ContextString|grpc:Error? {
         var response = check self.sClient->receive();
         if response is () {
             return response;
         } else {
             [anydata, map<string|string[]>] [payload, headers] = response;
-            return {headers: headers};
+            return {content: payload.toString(), headers: headers};
+            //return {headers: headers};
         }
     }
 
@@ -156,7 +162,7 @@ public client class Create_usersStreamingClient {
     isolated remote function complete() returns grpc:Error? {
         return self.sClient->complete();
     }
-}
+} 
 
 public client class Submit_assignmentsStreamingClient {
     private grpc:StreamingClient sClient;
@@ -164,31 +170,33 @@ public client class Submit_assignmentsStreamingClient {
     isolated function init(grpc:StreamingClient sClient) {
         self.sClient = sClient;
     }
-
-    isolated remote function sendAssignment(Assignment message) returns grpc:Error? {
+    //isolated remote function sendAssignment(Assignment message) returns grpc:Error? {
+    isolated remote function sendSubmitedAssignment(SubmitedAssignment message) returns grpc:Error? {//Assignment to SubmitedAssignment
         return self.sClient->send(message);
     }
-
-    isolated remote function sendContextAssignment(ContextAssignment message) returns grpc:Error? {
+    //isolated remote function sendContextAssignment(ContextAssignment message) returns grpc:Error? {
+    isolated remote function sendContextSubmitedAssignment(ContextSubmitedAssignment message) returns grpc:Error? {//ContextAssignment to ContextSubmitedAssignment
         return self.sClient->send(message);
     }
-
-    isolated remote function receive() returns grpc:Error? {
+    //isolated remote function receive() returns grpc:Error? {
+    isolated remote function receiveString() returns string|grpc:Error? {//receive to receiveString. returns grpc:Error? to returns string|grpc:Error?
         var response = check self.sClient->receive();
         if response is () {
             return response;
         } else {
             [anydata, map<string|string[]>] [payload, headers] = response;
+            return payload.toString();//previously blank
         }
     }
-
-    isolated remote function receiveContextNil() returns empty:ContextNil|grpc:Error? {
+    //isolated remote function receiveContextNil() returns empty:ContextNil|grpc:Error? {
+    isolated remote function receiveContextString() returns wrappers:ContextString|grpc:Error? {
         var response = check self.sClient->receive();
         if response is () {
             return response;
         } else {
             [anydata, map<string|string[]>] [payload, headers] = response;
-            return {headers: headers};
+            return {content: payload.toString(), headers: headers};
+            //return {headers: headers};
         }
     }
 
@@ -208,30 +216,32 @@ public client class Submit_marksStreamingClient {
         self.sClient = sClient;
     }
 
-    isolated remote function sendMark(MarksRecord message) returns grpc:Error? {
+    isolated remote function sendMark(Mark message) returns grpc:Error? {//MarksRecord to Mark
         return self.sClient->send(message);
     }
 
     isolated remote function sendContextMark(ContextMark message) returns grpc:Error? {
         return self.sClient->send(message);
     }
-
-    isolated remote function receive() returns grpc:Error? {
+    //isolated remote function receive() returns grpc:Error? {
+    isolated remote function receiveString() returns string|grpc:Error? {//receive to receiveString. returns grpc:Error? to returns string|grpc:Error?
         var response = check self.sClient->receive();
         if response is () {
             return response;
         } else {
             [anydata, map<string|string[]>] [payload, headers] = response;
+            return payload.toString();//previously blank
         }
     }
-
-    isolated remote function receiveContextNil() returns empty:ContextNil|grpc:Error? {
+    //isolated remote function receiveContextNil() returns empty:ContextNil|grpc:Error? {
+    isolated remote function receiveContextString() returns wrappers:ContextString|grpc:Error? {
         var response = check self.sClient->receive();
         if response is () {
             return response;
         } else {
             [anydata, map<string|string[]>] [payload, headers] = response;
-            return {headers: headers};
+            return {content: payload.toString(), headers: headers};
+            //return {headers: headers};
         }
     }
 
@@ -250,31 +260,33 @@ public client class RegisterStreamingClient {
     isolated function init(grpc:StreamingClient sClient) {
         self.sClient = sClient;
     }
-
-    isolated remote function sendCourseCode(CourseCodeRecord message) returns grpc:Error? {
+    //isolated remote function sendCourseCode(CourseCodeRecord message) returns grpc:Error? {
+    isolated remote function sendString(string message) returns grpc:Error? {
         return self.sClient->send(message);
     }
-
-    isolated remote function sendContextCourseCode(ContextCourseCode message) returns grpc:Error? {
+    //isolated remote function sendContextCourseCode(ContextCourseCode message) returns grpc:Error? {
+    isolated remote function sendContextString(wrappers:ContextString message) returns grpc:Error? {
         return self.sClient->send(message);
     }
-
-    isolated remote function receive() returns grpc:Error? {
+    //isolated remote function receive() returns grpc:Error? {
+    isolated remote function receiveString() returns string|grpc:Error? {
         var response = check self.sClient->receive();
         if response is () {
             return response;
         } else {
             [anydata, map<string|string[]>] [payload, headers] = response;
+            return payload.toString();//previously blank
         }
     }
-
-    isolated remote function receiveContextNil() returns empty:ContextNil|grpc:Error? {
+    //isolated remote function receiveContextNil() returns empty:ContextNil|grpc:Error? {
+    isolated remote function receiveContextString() returns wrappers:ContextString|grpc:Error? {
         var response = check self.sClient->receive();
         if response is () {
             return response;
         } else {
             [anydata, map<string|string[]>] [payload, headers] = response;
-            return {headers: headers};
+            return {content: payload.toString(), headers: headers};
+            //return {headers: headers};
         }
     }
 
@@ -325,24 +337,26 @@ public client class Create_coursesStreamingClient {
     isolated remote function sendContextCourse(ContextCourse message) returns grpc:Error? {
         return self.sClient->send(message);
     }
-
-    isolated remote function receiveCourseCode() returns CourseCodeRecord|grpc:Error? {
+    //isolated remote function receiveCourseCode() returns CourseCodeRecord|grpc:Error? {
+    isolated remote function receiveString() returns string|grpc:Error? {
         var response = check self.sClient->receive();
         if response is () {
             return response;
         } else {
-            [anydata, map<string|string[]>] [payload, headers] = response;
-            return <CourseCodeRecord>payload;
+            [anydata, map<string|string[]>] [payload, _] = response;//[payload, headers] = response to [payload, _] = response
+            return payload.toString();
+            //return <CourseCodeRecord>payload;
         }
     }
-
-    isolated remote function receiveContextCourseCode() returns ContextCourseCode|grpc:Error? {
+    //isolated remote function receiveContextCourseCode() returns ContextCourseCode|grpc:Error? {
+    isolated remote function receiveContextString() returns wrappers:ContextString|grpc:Error? {
         var response = check self.sClient->receive();
         if response is () {
             return response;
         } else {
             [anydata, map<string|string[]>] [payload, headers] = response;
-            return {content: <CourseCodeRecord>payload, headers: headers};
+            return {content: payload.toString(), headers: headers};
+            //return {content: <CourseCodeRecord>payload, headers: headers};
         }
     }
 
@@ -366,11 +380,13 @@ public client class CourseServiceCourseCodeCaller {
         return self.caller.getId();
     }
 
-    isolated remote function sendCourseCode(CourseCodeRecord response) returns grpc:Error? {
+    // isolated remote function sendCourseCode(CourseCodeRecord response) returns grpc:Error? {
+    isolated remote function sendAssignment(Assignment response) returns grpc:Error? {    
         return self.caller->send(response);
     }
 
-    isolated remote function sendContextCourseCode(ContextCourseCode response) returns grpc:Error? {
+    // isolated remote function sendContextCourseCode(ContextCourseCode response) returns grpc:Error? {
+    isolated remote function sendContextAssignment(ContextAssignment response) returns grpc:Error? {
         return self.caller->send(response);
     }
 
@@ -387,7 +403,8 @@ public client class CourseServiceCourseCodeCaller {
     }
 }
 
-public client class CourseServiceNilCaller {
+// public client class CourseServiceNilCaller {
+public client class CourseServiceStringCaller {
     private grpc:Caller caller;
 
     public isolated function init(grpc:Caller caller) {
@@ -396,6 +413,14 @@ public client class CourseServiceNilCaller {
 
     public isolated function getId() returns int {
         return self.caller.getId();
+    }
+
+    isolated remote function sendString(string response) returns grpc:Error? {//Added after
+        return self.caller->send(response);
+    }
+
+    isolated remote function sendContextString(wrappers:ContextString response) returns grpc:Error? {//Added after
+        return self.caller->send(response);
     }
 
     isolated remote function sendError(grpc:Error response) returns grpc:Error? {
@@ -453,13 +478,13 @@ public type ContextUserStream record {|
     map<string|string[]> headers;
 |};
 
-public type ContextCourseCodeStream record {|
-    stream<CourseCodeRecord, error?> content;
+public type ContextSubmitedAssignmentStream record {|//ContextCourseCodeStream to ContextSubmitedAssignmentStream
+    stream<SubmitedAssignment, error?> content;//CourseCodeRecord to SubmitedAssignment
     map<string|string[]> headers;
 |};
 
 public type ContextMarkStream record {|
-    stream<MarksRecord, error?> content;
+    stream<Mark, error?> content;//MarksRecord to Mark
     map<string|string[]> headers;
 |};
 
@@ -483,13 +508,14 @@ public type ContextUser record {|
     map<string|string[]> headers;
 |};
 
-public type ContextCourseCode record {|
-    CourseCodeRecord content;
+public type ContextSubmitedAssignment record {|//ContextCourseCode to ContextSubmitedAssignment
+    SubmitedAssignment content;//CourseCodeRecord to SubmitedAssignment
     map<string|string[]> headers;
 |};
 
 public type ContextMark record {|
-    MarksRecord content;
+    Mark content;
+    // MarksRecord content;
     map<string|string[]> headers;
 |};
 
@@ -503,41 +529,58 @@ public type ContextCourseAssessor record {|
     map<string|string[]> headers;
 |};
 
-public type AssignmentRecord record {|
-    string course_code;
-    string username;
+public type Assignment record {|
+    readonly string assignmentCode;
+    float weight;
+    // string course_code;
+    // string username;
+    // string content;
+|};
+
+public type User record {|
+    string firstname;
+    string lastname;
+    string email;
+    string profile;
+    // string username;
+    // string password;
+    // Profile profile;
+|};
+
+// public type AssignmentWeightRecord record {|
+//     string name;
+//     int weight;
+// |};
+
+public type SubmitedAssignment record {|//CourseCodeRecord to SubmitedAssignment
+    Course course;
+    readonly string userId;
     string content;
+    boolean marked;
+    
+    //string code;
 |};
 
-public type UserRecord record {|
-    string username;
-    string password;
-    Profile profile;
-|};
-
-public type AssignmentWeightRecord record {|
-    string name;
-    int weight;
-|};
-
-public type CourseCodeRecord record {|
-    string code;
-|};
-
-public type MarksRecord record {|
-    string course_code;
-    string username;
+public type Mark record {|//MarksRecord
+    readonly string userId;
+    Course course;
     int mark;
+    // string course_code;
+    // string username;
+    // int mark;
 |};
 
-public type CourseRecord record {|
-    string name;
-    int assignments;
+public type Course record {|
+    readonly string courseCode;
+    Assignment[] assignments;
+    // string name;
+    // int assignments;
     //float AssignmentWeight[] assignment_weights = [];
 |};
 
 public type CourseAssessor record {|
-    string code;
+    string courseCode;
+    // string code;
     string assessor;
 |};
 
