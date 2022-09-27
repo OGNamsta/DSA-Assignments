@@ -21,6 +21,8 @@ service "assessmentmanagement" on ep {
     }
 
     remote function assign_courses(stream<CourseAssessor, grpc:Error?> clientStream) returns error? {
+        // Implement logic to assign courses to assessors
+        
     }
     remote function create_users(stream<User, grpc:Error?> clientStream) returns error? {
     }
@@ -52,4 +54,3 @@ service "assessmentmanagement" on ep {
         });
     }
 }
-
