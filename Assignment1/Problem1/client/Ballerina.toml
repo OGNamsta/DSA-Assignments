@@ -3,3 +3,9 @@ distribution = "slbeta3"
 
 [build-options]
 observabilityIncluded = true
+
+[[platform.java11.dependency]]
+path = "C://Ballerina modules//module-ballerinax-java.jdbc-1.5.0"
+
+[[platform.java11.dependency]]
+path = "C://jar_files//mysql-connector-java-8.0.30.jar"

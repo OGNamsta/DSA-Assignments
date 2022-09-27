@@ -1,6 +1,6 @@
 import ballerina/http;
 import Problem3.types as Types;
-import Problem3.datastore as Datastore;
+//import Problem3.datastore as Datastore;
 
 public isolated client class Client {
     final http:Client clientEp;
@@ -17,41 +17,43 @@ public isolated client class Client {
     # Get all students added to the application
     #
     # + return - A list of students 
-    remote isolated function getAllStudents() returns Student[]|error {
+    remote isolated function getAllStudents() returns Types:Student[]|error {
         string resourcePath = string `/students`;
-        Student[] response = check self.clientEp->get(resourcePath);
+        Types:Student[] response = check self.clientEp->get(resourcePath);
         return response;
     }
     # Insert a new Student
     #
-    # + return - Student successfully created 
-    remote isolated function insert(Student payload) returns InlineResponse201|error {
+    # + payload - Parameter Description
+    # + return - Student successfully created
+    remote isolated function insert(Types:Student payload) returns Types:InlineResponse201|error {
         string resourcePath = string `/students`;
         http:Request request = new;
         json jsonBody = check payload.cloneWithType(json);
         request.setPayload(jsonBody, "application/json");
-        InlineResponse201 response = check self.clientEp->post(resourcePath, request);
+        Types:InlineResponse201 response = check self.clientEp->post(resourcePath, request);
         return response;
     }
     # Get a single upser
     #
     # + username - username of the Student 
     # + return - Student response 
-    remote isolated function getStudent(string username) returns Student|error {
+    remote isolated function getStudent(string username) returns Types:Student|error {
         string resourcePath = string `/students/${getEncodedUri(username)}`;
-        Student response = check self.clientEp->get(resourcePath);
+        Types:Student response = check self.clientEp->get(resourcePath);
         return response;
     }
     # Update an existing Student
     #
-    # + username - username of the Student 
-    # + return - Student was successfully updated 
-    remote isolated function updateStudent(string username, Student payload) returns Student|error {
+    # + username - username of the Student  
+    # + payload - Parameter Description
+    # + return - Student was successfully updated
+    remote isolated function updateStudent(string username, Types:Student payload) returns Types:Student|error {
         string resourcePath = string `/students/${getEncodedUri(username)}`;
         http:Request request = new;
         json jsonBody = check payload.cloneWithType(json);
         request.setPayload(jsonBody, "application/json");
-        Student response = check self.clientEp->put(resourcePath, request);
+        Types:Student response = check self.clientEp->put(resourcePath, request);
         return response;
     }
     # Delete an existing Student
@@ -66,41 +68,43 @@ public isolated client class Client {
     # Get all course details added to the application
     #
     # + return - A list of courses 
-    remote isolated function getAllCourses() returns Courseinfo[]|error {
+    remote isolated function getAllCourses() returns Types:Courseinfo[]|error {
         string resourcePath = string `/coursedetails`;
-        Courseinfo[] response = check self.clientEp->get(resourcePath);
+        Types:Courseinfo[] response = check self.clientEp->get(resourcePath);
         return response;
     }
     # Insert a new course
     #
-    # + return - Course successfully created 
-    remote isolated function insertCourse(Courseinfo payload) returns InlineResponse2011|error {
+    # + payload - Parameter Description
+    # + return - Course successfully created
+    remote isolated function insertCourse(Types:Courseinfo payload) returns Types:InlineResponse2011|error {
         string resourcePath = string `/coursedetails`;
         http:Request request = new;
         json jsonBody = check payload.cloneWithType(json);
         request.setPayload(jsonBody, "application/json");
-        InlineResponse2011 response = check self.clientEp->post(resourcePath, request);
+        Types:InlineResponse2011 response = check self.clientEp->post(resourcePath, request);
         return response;
     }
     # Get a single course
     #
     # + courseCode - course code of the Course 
     # + return - Course response 
-    remote isolated function getCourse(string courseCode) returns Courseinfo|error {
+    remote isolated function getCourse(string courseCode) returns Types:Courseinfo|error {
         string resourcePath = string `/coursedetails/${getEncodedUri(courseCode)}`;
-        Courseinfo response = check self.clientEp->get(resourcePath);
+        Types:Courseinfo response = check self.clientEp->get(resourcePath);
         return response;
     }
     # Update an existing Course
     #
-    # + courseCode - course code of the Course 
-    # + return - Course was successfully updated 
-    remote isolated function updateCourse(string courseCode, Courseinfo payload) returns Courseinfo|error {
+    # + courseCode - course code of the Course  
+    # + payload - Parameter Description
+    # + return - Course was successfully updated
+    remote isolated function updateCourse(string courseCode, Types:Courseinfo payload) returns Types:Courseinfo|error {
         string resourcePath = string `/coursedetails/${getEncodedUri(courseCode)}`;
         http:Request request = new;
         json jsonBody = check payload.cloneWithType(json);
         request.setPayload(jsonBody, "application/json");
-        Courseinfo response = check self.clientEp->put(resourcePath, request);
+        Types:Courseinfo response = check self.clientEp->put(resourcePath, request);
         return response;
     }
     # Delete an existing Course

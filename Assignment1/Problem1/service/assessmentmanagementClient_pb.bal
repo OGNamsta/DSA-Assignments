@@ -1,41 +1,34 @@
 import ballerina/grpc;
-//import ballerina/protobuf.types.empty;
 import ballerina/protobuf.types.wrappers;
 
-
-public isolated client class courseserviceClient {
+public isolated client class assessmentmanagementClient {
     *grpc:AbstractClientEndpoint;
 
     private final grpc:Client grpcClient;
 
     public isolated function init(string url, *grpc:ClientConfiguration config) returns grpc:Error? {
         self.grpcClient = check new (url, config);
-        check self.grpcClient.initStub(self, ROOT_DESCRIPTOR_USER_INFO, getDescriptorMapUserInfo());
+        check self.grpcClient.initStub(self, ROOT_DESCRIPTOR_VLE, getDescriptorMapVle());
     }
 
     isolated remote function assign_courses() returns Assign_coursesStreamingClient|grpc:Error {
-        grpc:StreamingClient sClient = check self.grpcClient->executeClientStreaming("courseservice/assign_courses");//courseService to courseservice
+        grpc:StreamingClient sClient = check self.grpcClient->executeClientStreaming("assessmentmanagement/assign_courses");
         return new Assign_coursesStreamingClient(sClient);
     }
 
     isolated remote function create_users() returns Create_usersStreamingClient|grpc:Error {
-        grpc:StreamingClient sClient = check self.grpcClient->executeClientStreaming("courseservice/create_users");//courseService to courseservice
+        grpc:StreamingClient sClient = check self.grpcClient->executeClientStreaming("assessmentmanagement/create_users");
         return new Create_usersStreamingClient(sClient);
     }
 
     isolated remote function submit_assignments() returns Submit_assignmentsStreamingClient|grpc:Error {
-        grpc:StreamingClient sClient = check self.grpcClient->executeClientStreaming("courseservice/submit_assignments");//courseService to courseservice
+        grpc:StreamingClient sClient = check self.grpcClient->executeClientStreaming("assessmentmanagement/submit_assignments");
         return new Submit_assignmentsStreamingClient(sClient);
     }
 
     isolated remote function submit_marks() returns Submit_marksStreamingClient|grpc:Error {
-        grpc:StreamingClient sClient = check self.grpcClient->executeClientStreaming("courseservice/submit_marks");//courseService to courseservice
+        grpc:StreamingClient sClient = check self.grpcClient->executeClientStreaming("assessmentmanagement/submit_marks");
         return new Submit_marksStreamingClient(sClient);
-    }
-
-    isolated remote function register() returns RegisterStreamingClient|grpc:Error {
-        grpc:StreamingClient sClient = check self.grpcClient->executeClientStreaming("courseservice/register");//courseService to courseservice
-        return new RegisterStreamingClient(sClient);
     }
 
     isolated remote function request_assignments(string|wrappers:ContextString req) returns stream<Assignment, grpc:Error?>|grpc:Error {
@@ -47,7 +40,7 @@ public isolated client class courseserviceClient {
         } else {
             message = req;
         }
-        var payload = check self.grpcClient->executeServerStreaming("courseservice/request_assignments", message, headers);//courseService to courseservice
+        var payload = check self.grpcClient->executeServerStreaming("assessmentmanagement/request_assignments", message, headers);
         [stream<anydata, grpc:Error?>, map<string|string[]>] [result, _] = payload;
         AssignmentStream outputStream = new AssignmentStream(result);
         return new stream<Assignment, grpc:Error?>(outputStream);
@@ -62,15 +55,20 @@ public isolated client class courseserviceClient {
         } else {
             message = req;
         }
-        var payload = check self.grpcClient->executeServerStreaming("courseservice/request_assignments", message, headers);//courseService to courseservice
+        var payload = check self.grpcClient->executeServerStreaming("assessmentmanagement/request_assignments", message, headers);
         [stream<anydata, grpc:Error?>, map<string|string[]>] [result, respHeaders] = payload;
         AssignmentStream outputStream = new AssignmentStream(result);
         return {content: new stream<Assignment, grpc:Error?>(outputStream), headers: respHeaders};
     }
 
     isolated remote function create_courses() returns Create_coursesStreamingClient|grpc:Error {
-        grpc:StreamingClient sClient = check self.grpcClient->executeBidirectionalStreaming("courseservice/create_courses");//courseService to courseservice
+        grpc:StreamingClient sClient = check self.grpcClient->executeBidirectionalStreaming("assessmentmanagement/create_courses");
         return new Create_coursesStreamingClient(sClient);
+    }
+
+    isolated remote function register() returns RegisterStreamingClient|grpc:Error {
+        grpc:StreamingClient sClient = check self.grpcClient->executeBidirectionalStreaming("assessmentmanagement/register");
+        return new RegisterStreamingClient(sClient);
     }
 }
 
@@ -168,11 +166,11 @@ public client class Submit_assignmentsStreamingClient {
     isolated function init(grpc:StreamingClient sClient) {
         self.sClient = sClient;
     }
-    //isolated remote function sendAssignment(Assignment message) returns grpc:Error? {
+
     isolated remote function sendSubmitedAssignment(SubmitedAssignment message) returns grpc:Error? {
         return self.sClient->send(message);
     }
-    //isolated remote function sendContextAssignment(ContextAssignment message) returns grpc:Error? {
+
     isolated remote function sendContextSubmitedAssignment(ContextSubmitedAssignment message) returns grpc:Error? {
         return self.sClient->send(message);
     }
@@ -182,7 +180,7 @@ public client class Submit_assignmentsStreamingClient {
         if response is () {
             return response;
         } else {
-            [anydata, map<string|string[]>] [payload, headers] = response;
+            [anydata, map<string|string[]>] [payload, _] = response;
             return payload.toString();
         }
     }
@@ -226,51 +224,7 @@ public client class Submit_marksStreamingClient {
         if response is () {
             return response;
         } else {
-            [anydata, map<string|string[]>] [payload, headers] = response;
-            return payload.toString();
-        }
-    }
-
-    isolated remote function receiveContextString() returns wrappers:ContextString|grpc:Error? {
-        var response = check self.sClient->receive();
-        if response is () {
-            return response;
-        } else {
-            [anydata, map<string|string[]>] [payload, headers] = response;
-            return {content: payload.toString(), headers: headers};
-        }
-    }
-
-    isolated remote function sendError(grpc:Error response) returns grpc:Error? {
-        return self.sClient->sendError(response);
-    }
-
-    isolated remote function complete() returns grpc:Error? {
-        return self.sClient->complete();
-    }
-}
-
-public client class RegisterStreamingClient {
-    private grpc:StreamingClient sClient;
-
-    isolated function init(grpc:StreamingClient sClient) {
-        self.sClient = sClient;
-    }
-
-    isolated remote function sendString(string message) returns grpc:Error? {
-        return self.sClient->send(message);
-    }
-
-    isolated remote function sendContextString(wrappers:ContextString message) returns grpc:Error? {
-        return self.sClient->send(message);
-    }
-
-    isolated remote function receiveString() returns string|grpc:Error? {
-        var response = check self.sClient->receive();
-        if response is () {
-            return response;
-        } else {
-            [anydata, map<string|string[]>] [payload, headers] = response;
+            [anydata, map<string|string[]>] [payload, _] = response;
             return payload.toString();
         }
     }
@@ -362,7 +316,51 @@ public client class Create_coursesStreamingClient {
     }
 }
 
-public client class CourseServiceCourseCodeCaller {
+public client class RegisterStreamingClient {
+    private grpc:StreamingClient sClient;
+
+    isolated function init(grpc:StreamingClient sClient) {
+        self.sClient = sClient;
+    }
+
+    isolated remote function sendString(string message) returns grpc:Error? {
+        return self.sClient->send(message);
+    }
+
+    isolated remote function sendContextString(wrappers:ContextString message) returns grpc:Error? {
+        return self.sClient->send(message);
+    }
+
+    isolated remote function receiveString() returns string|grpc:Error? {
+        var response = check self.sClient->receive();
+        if response is () {
+            return response;
+        } else {
+            [anydata, map<string|string[]>] [payload, _] = response;
+            return payload.toString();
+        }
+    }
+
+    isolated remote function receiveContextString() returns wrappers:ContextString|grpc:Error? {
+        var response = check self.sClient->receive();
+        if response is () {
+            return response;
+        } else {
+            [anydata, map<string|string[]>] [payload, headers] = response;
+            return {content: payload.toString(), headers: headers};
+        }
+    }
+
+    isolated remote function sendError(grpc:Error response) returns grpc:Error? {
+        return self.sClient->sendError(response);
+    }
+
+    isolated remote function complete() returns grpc:Error? {
+        return self.sClient->complete();
+    }
+}
+
+public client class AssessmentmanagementAssignmentCaller {
     private grpc:Caller caller;
 
     public isolated function init(grpc:Caller caller) {
@@ -394,7 +392,7 @@ public client class CourseServiceCourseCodeCaller {
     }
 }
 
-public client class CourseServiceStringCaller {
+public client class AssessmentmanagementStringCaller {
     private grpc:Caller caller;
 
     public isolated function init(grpc:Caller caller) {
@@ -410,38 +408,6 @@ public client class CourseServiceStringCaller {
     }
 
     isolated remote function sendContextString(wrappers:ContextString response) returns grpc:Error? {
-        return self.caller->send(response);
-    }    
-
-    isolated remote function sendError(grpc:Error response) returns grpc:Error? {
-        return self.caller->sendError(response);
-    }
-
-    isolated remote function complete() returns grpc:Error? {
-        return self.caller->complete();
-    }
-
-    public isolated function isCancelled() returns boolean {
-        return self.caller.isCancelled();
-    }
-}
-
-public client class CourseServiceAssignmentCaller {
-    private grpc:Caller caller;
-
-    public isolated function init(grpc:Caller caller) {
-        self.caller = caller;
-    }
-
-    public isolated function getId() returns int {
-        return self.caller.getId();
-    }
-
-    isolated remote function sendAssignment(Assignment response) returns grpc:Error? {
-        return self.caller->send(response);
-    }
-
-    isolated remote function sendContextAssignment(ContextAssignment response) returns grpc:Error? {
         return self.caller->send(response);
     }
 
@@ -468,8 +434,8 @@ public type ContextUserStream record {|
     map<string|string[]> headers;
 |};
 
-public type ContextCourseCodeStream record {|
-    stream<CourseAssessor, error?> content;//CourseCode to CourseAssessor
+public type ContextSubmitedAssignmentStream record {|
+    stream<SubmitedAssignment, error?> content;
     map<string|string[]> headers;
 |};
 
@@ -498,8 +464,8 @@ public type ContextUser record {|
     map<string|string[]> headers;
 |};
 
-public type ContextSubmitedAssignment record {| //ContextCourseCode to ContextSubmitedAssignment
-    SubmitedAssignment content;//CourseCode to SubmitedAssignment
+public type ContextSubmitedAssignment record {|
+    SubmitedAssignment content;
     map<string|string[]> headers;
 |};
 
@@ -517,13 +483,6 @@ public type ContextCourseAssessor record {|
     CourseAssessor content;
     map<string|string[]> headers;
 |};
-
-// public type Assignment record {|
-//     string course_code = "";
-//     string assignmentCode = "";
-//     string username = "";
-//     string content = "";
-// |};
 
 public type Assignment record {|
     readonly string assignmentCode;
@@ -545,60 +504,25 @@ public type SubmitedAssignment record {|
     boolean marked;
 |};
 
-// public type User record {|
-//     string username = "";
-//     string password = "";
-//     Profile profile = ADMINISTRATOR;
-// |};
-
-// public type AssignmentWeight record {|
-//     string name = "";
-//     Weights[] weight = [];
-// |};
-
-// public type CourseCode record {|
-//     string code = "";
-// |};
-
 public type Mark record {|
     readonly string userId;
     Course course;
     int mark;
 |};
-// public type Mark record {|
-//     string course_code = "";
-//     string username = "";
-//     int mark = 0;
-// |};
+
 public type Course record {|
     readonly string courseCode;
     Assignment[] assignments;
 |};
-// public type Course record {|
-//     string name = "";
-//     string CourseCode = "";
-//     Assignment[] assignments = [];
-//     AssignmentWeight[] assignment_weights = [];
-// |};
 
 public type CourseAssessor record {|
     string courseCode;
     User assessor;
 |};
-// public type CourseAssessor record {|
-//     string code = "";
-//     string assessor = "";
-// |};
 
-public enum Profile {
-    ADMINISTRATOR,
-    ASSESSOR,
-    LEARNER
-}
+const string ROOT_DESCRIPTOR_VLE = "0A09766C652E70726F746F1A1E676F6F676C652F70726F746F6275662F77726170706572732E70726F746F22570A06436F75727365121E0A0A636F75727365436F6465180120012809520A636F75727365436F6465122D0A0B61737369676E6D656E747318022003280B320B2E41737369676E6D656E74520B61737369676E6D656E747322530A0E436F757273654173736573736F72121E0A0A636F75727365436F6465180120012809520A636F75727365436F646512210A086173736573736F7218022001280B32052E5573657252086173736573736F722288010A045573657212160A067573657249641801200128095206757365724964121C0A0966697273746E616D65180220012809520966697273746E616D65121A0A086C6173746E616D6518032001280952086C6173746E616D6512140A05656D61696C1804200128095205656D61696C12180A0770726F66696C65180520012809520770726F66696C65224C0A0A41737369676E6D656E7412260A0E61737369676E6D656E74436F6465180120012809520E61737369676E6D656E74436F646512160A067765696768741802200128015206776569676874227F0A125375626D6974656441737369676E6D656E74121F0A06636F7572736518012001280B32072E436F757273655206636F7572736512160A06757365724964180220012809520675736572496412180A07636F6E74656E741803200128095207636F6E74656E7412160A066D61726B656418042001280852066D61726B656422530A044D61726B12160A067573657249641801200128095206757365724964121F0A06636F7572736518022001280B32072E436F757273655206636F7572736512120A046D61726B18032001280552046D61726B32DF030A146173736573736D656E746D616E6167656D656E74123B0A0E6372656174655F636F757273657312072E436F757273651A1C2E676F6F676C652E70726F746F6275662E537472696E6756616C75652801300112410A0E61737369676E5F636F7572736573120F2E436F757273654173736573736F721A1C2E676F6F676C652E70726F746F6275662E537472696E6756616C7565280112350A0C6372656174655F757365727312052E557365721A1C2E676F6F676C652E70726F746F6275662E537472696E6756616C7565280112490A127375626D69745F61737369676E6D656E747312132E5375626D6974656441737369676E6D656E741A1C2E676F6F676C652E70726F746F6275662E537472696E6756616C7565280112420A13726571756573745F61737369676E6D656E7473121C2E676F6F676C652E70726F746F6275662E537472696E6756616C75651A0B2E41737369676E6D656E74300112350A0C7375626D69745F6D61726B7312052E4D61726B1A1C2E676F6F676C652E70726F746F6275662E537472696E6756616C75652801124A0A087265676973746572121C2E676F6F676C652E70726F746F6275662E537472696E6756616C75651A1C2E676F6F676C652E70726F746F6275662E537472696E6756616C756528013001620670726F746F33";
 
-const string ROOT_DESCRIPTOR_USER_INFO = "0A0F757365725F696E666F2E70726F746F1A1B676F6F676C652F70726F746F6275662F656D7074792E70726F746F2280010A06436F7572736512120A046E616D6518012001280952046E616D6512200A0B61737369676E6D656E7473180220012805520B61737369676E6D656E747312400A1261737369676E6D656E745F7765696768747318032003280B32112E41737369676E6D656E74576569676874521161737369676E6D656E745765696768747322200A0A436F75727365436F646512120A04636F64651801200128095204636F646522400A0E436F757273654173736573736F7212120A04636F64651801200128095204636F6465121A0A086173736573736F7218022001280952086173736573736F7222620A0455736572121A0A08757365726E616D651801200128095208757365726E616D65121A0A0870617373776F7264180220012809520870617373776F726412220A0770726F66696C6518032001280E32082E50726F66696C65520770726F66696C6522630A0A41737369676E6D656E74121F0A0B636F757273655F636F6465180120012809520A636F75727365436F6465121A0A08757365726E616D651802200128095208757365726E616D6512180A07636F6E74656E741803200128095207636F6E74656E74223E0A1041737369676E6D656E7457656967687412120A046E616D6518012001280952046E616D6512160A06776569676874180220012805520677656967687422570A044D61726B121F0A0B636F757273655F636F6465180120012809520A636F75727365436F6465121A0A08757365726E616D651802200128095208757365726E616D6512120A046D61726B18032001280552046D61726B2A370A0750726F66696C6512110A0D41444D494E4953545241544F521000120C0A084153534553534F521001120B0A074C4541524E4552100232FD020A0D636F7572736553657276696365122A0A0E6372656174655F636F757273657312072E436F757273651A0B2E436F75727365436F646528013001123B0A0E61737369676E5F636F7572736573120F2E436F757273654173736573736F721A162E676F6F676C652E70726F746F6275662E456D7074792801122F0A0C6372656174655F757365727312052E557365721A162E676F6F676C652E70726F746F6275662E456D7074792801123B0A127375626D69745F61737369676E6D656E7473120B2E41737369676E6D656E741A162E676F6F676C652E70726F746F6275662E456D707479280112310A13726571756573745F61737369676E6D656E7473120B2E436F75727365436F64651A0B2E41737369676E6D656E743001122F0A0C7375626D69745F6D61726B7312052E4D61726B1A162E676F6F676C652E70726F746F6275662E456D707479280112310A087265676973746572120B2E436F75727365436F64651A162E676F6F676C652E70726F746F6275662E456D7074792801620670726F746F33";
-
-public isolated function getDescriptorMapUserInfo() returns map<string> {
-    return {"google/protobuf/empty.proto": "0A1B676F6F676C652F70726F746F6275662F656D7074792E70726F746F120F676F6F676C652E70726F746F62756622070A05456D70747942540A13636F6D2E676F6F676C652E70726F746F627566420A456D70747950726F746F50015A057479706573F80101A20203475042AA021E476F6F676C652E50726F746F6275662E57656C6C4B6E6F776E5479706573620670726F746F33", "user_info.proto": "0A0F757365725F696E666F2E70726F746F1A1B676F6F676C652F70726F746F6275662F656D7074792E70726F746F2280010A06436F7572736512120A046E616D6518012001280952046E616D6512200A0B61737369676E6D656E7473180220012805520B61737369676E6D656E747312400A1261737369676E6D656E745F7765696768747318032003280B32112E41737369676E6D656E74576569676874521161737369676E6D656E745765696768747322200A0A436F75727365436F646512120A04636F64651801200128095204636F646522400A0E436F757273654173736573736F7212120A04636F64651801200128095204636F6465121A0A086173736573736F7218022001280952086173736573736F7222620A0455736572121A0A08757365726E616D651801200128095208757365726E616D65121A0A0870617373776F7264180220012809520870617373776F726412220A0770726F66696C6518032001280E32082E50726F66696C65520770726F66696C6522630A0A41737369676E6D656E74121F0A0B636F757273655F636F6465180120012809520A636F75727365436F6465121A0A08757365726E616D651802200128095208757365726E616D6512180A07636F6E74656E741803200128095207636F6E74656E74223E0A1041737369676E6D656E7457656967687412120A046E616D6518012001280952046E616D6512160A06776569676874180220012805520677656967687422570A044D61726B121F0A0B636F757273655F636F6465180120012809520A636F75727365436F6465121A0A08757365726E616D651802200128095208757365726E616D6512120A046D61726B18032001280552046D61726B2A370A0750726F66696C6512110A0D41444D494E4953545241544F521000120C0A084153534553534F521001120B0A074C4541524E4552100232FD020A0D636F7572736553657276696365122A0A0E6372656174655F636F757273657312072E436F757273651A0B2E436F75727365436F646528013001123B0A0E61737369676E5F636F7572736573120F2E436F757273654173736573736F721A162E676F6F676C652E70726F746F6275662E456D7074792801122F0A0C6372656174655F757365727312052E557365721A162E676F6F676C652E70726F746F6275662E456D7074792801123B0A127375626D69745F61737369676E6D656E7473120B2E41737369676E6D656E741A162E676F6F676C652E70726F746F6275662E456D707479280112310A13726571756573745F61737369676E6D656E7473120B2E436F75727365436F64651A0B2E41737369676E6D656E743001122F0A0C7375626D69745F6D61726B7312052E4D61726B1A162E676F6F676C652E70726F746F6275662E456D707479280112310A087265676973746572120B2E436F75727365436F64651A162E676F6F676C652E70726F746F6275662E456D7074792801620670726F746F33"};
+public isolated function getDescriptorMapVle() returns map<string> {
+    return {"google/protobuf/wrappers.proto": "0A1E676F6F676C652F70726F746F6275662F77726170706572732E70726F746F120F676F6F676C652E70726F746F62756622230A0B446F75626C6556616C756512140A0576616C7565180120012801520576616C756522220A0A466C6F617456616C756512140A0576616C7565180120012802520576616C756522220A0A496E74363456616C756512140A0576616C7565180120012803520576616C756522230A0B55496E74363456616C756512140A0576616C7565180120012804520576616C756522220A0A496E74333256616C756512140A0576616C7565180120012805520576616C756522230A0B55496E74333256616C756512140A0576616C756518012001280D520576616C756522210A09426F6F6C56616C756512140A0576616C7565180120012808520576616C756522230A0B537472696E6756616C756512140A0576616C7565180120012809520576616C756522220A0A427974657356616C756512140A0576616C756518012001280C520576616C756542570A13636F6D2E676F6F676C652E70726F746F627566420D577261707065727350726F746F50015A057479706573F80101A20203475042AA021E476F6F676C652E50726F746F6275662E57656C6C4B6E6F776E5479706573620670726F746F33", "vle.proto": "0A09766C652E70726F746F1A1E676F6F676C652F70726F746F6275662F77726170706572732E70726F746F22570A06436F75727365121E0A0A636F75727365436F6465180120012809520A636F75727365436F6465122D0A0B61737369676E6D656E747318022003280B320B2E41737369676E6D656E74520B61737369676E6D656E747322530A0E436F757273654173736573736F72121E0A0A636F75727365436F6465180120012809520A636F75727365436F646512210A086173736573736F7218022001280B32052E5573657252086173736573736F722288010A045573657212160A067573657249641801200128095206757365724964121C0A0966697273746E616D65180220012809520966697273746E616D65121A0A086C6173746E616D6518032001280952086C6173746E616D6512140A05656D61696C1804200128095205656D61696C12180A0770726F66696C65180520012809520770726F66696C65224C0A0A41737369676E6D656E7412260A0E61737369676E6D656E74436F6465180120012809520E61737369676E6D656E74436F646512160A067765696768741802200128015206776569676874227F0A125375626D6974656441737369676E6D656E74121F0A06636F7572736518012001280B32072E436F757273655206636F7572736512160A06757365724964180220012809520675736572496412180A07636F6E74656E741803200128095207636F6E74656E7412160A066D61726B656418042001280852066D61726B656422530A044D61726B12160A067573657249641801200128095206757365724964121F0A06636F7572736518022001280B32072E436F757273655206636F7572736512120A046D61726B18032001280552046D61726B32DF030A146173736573736D656E746D616E6167656D656E74123B0A0E6372656174655F636F757273657312072E436F757273651A1C2E676F6F676C652E70726F746F6275662E537472696E6756616C75652801300112410A0E61737369676E5F636F7572736573120F2E436F757273654173736573736F721A1C2E676F6F676C652E70726F746F6275662E537472696E6756616C7565280112350A0C6372656174655F757365727312052E557365721A1C2E676F6F676C652E70726F746F6275662E537472696E6756616C7565280112490A127375626D69745F61737369676E6D656E747312132E5375626D6974656441737369676E6D656E741A1C2E676F6F676C652E70726F746F6275662E537472696E6756616C7565280112420A13726571756573745F61737369676E6D656E7473121C2E676F6F676C652E70726F746F6275662E537472696E6756616C75651A0B2E41737369676E6D656E74300112350A0C7375626D69745F6D61726B7312052E4D61726B1A1C2E676F6F676C652E70726F746F6275662E537472696E6756616C75652801124A0A087265676973746572121C2E676F6F676C652E70726F746F6275662E537472696E6756616C75651A1C2E676F6F676C652E70726F746F6275662E537472696E6756616C756528013001620670726F746F33"};
 }
 
