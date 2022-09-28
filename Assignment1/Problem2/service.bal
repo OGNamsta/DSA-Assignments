@@ -6,15 +6,14 @@ import Problem2.types as Types;
 service /graphql on new graphql:Listener(9090) {
     function init() {
         Datastore:covidTable = table [
-            {region: "Khomas", date: "2020-03-01", deaths: 10, confirmed_cases: 100, recoveries: 20, tested: 100},
-            {region: "Hardap", date: "2020-03-02", deaths: 10, confirmed_cases: 100, recoveries: 20, tested: 100},
-            {region: "Erongo", date: "2020-03-03", deaths: 10, confirmed_cases: 100, recoveries: 20, tested: 100}
-        ];
+                {region: "Khomas", date: "2020-03-01", deaths: 10, confirmed_cases: 100, recoveries: 20, tested: 100},
+                {region: "Hardap", date: "2020-03-02", deaths: 10, confirmed_cases: 100, recoveries: 20, tested: 100},
+                {region: "Erongo", date: "2020-03-03", deaths: 10, confirmed_cases: 100, recoveries: 20, tested: 100}
+            ];
     }
 
-resource function get covStat() returns Types:covidStat[] {
+    resource function get covStat() returns Types:covidStat[] {
         return Datastore:covidTable.toArray();
-        
 
     }
     remote function updatecovStat(string region, string date, int deaths, int confirmed_cases, int recoveries, int tested) returns Types:covidStat|error {
@@ -29,6 +28,6 @@ resource function get covStat() returns Types:covidStat[] {
             error error1 = error("covStat not found");
             return error1;
         }
-        
+
     }
-    }
+}
