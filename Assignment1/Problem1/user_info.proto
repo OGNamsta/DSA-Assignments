@@ -1,5 +1,4 @@
 syntax = "proto3";
-// import "google/protobuf/empty.proto";
 import "google/protobuf/wrappers.proto";
 
 
@@ -13,55 +12,54 @@ import "google/protobuf/wrappers.proto";
 */
 
 service courseService {
-    rpc create_courses(stream Course) returns (stream CourseCode);
-    rpc assign_courses(stream CourseAssessor) returns (google.protobuf.Empty);
-    rpc create_users(stream User) returns (google.protobuf.Empty);
-    rpc submit_assignments(stream Assignment) returns (google.protobuf.Empty);
-    rpc request_assignments(CourseCode) returns (stream Assignment);
-    rpc submit_marks(stream Mark) returns (google.protobuf.Empty);
-    rpc register(stream CourseCode) returns (google.protobuf.Empty);    
+    rpc create_courses(stream Course) returns (stream google.protobuf.StringValue);
+    rpc assign_courses(stream CourseAssessor) returns (google.protobuf.StringValue);
+    rpc create_users(stream User) returns (google.protobuf.StringValue);
+    rpc submit_assignments(stream SubmitedAssignment) returns (google.protobuf.StringValue);
+    rpc request_assignments(google.protobuf.StringValue) returns (stream Assignment);
+    rpc submit_marks(stream Mark) returns (google.protobuf.StringValue);
+    rpc register(stream google.protobuf.StringValue) returns (stream google.protobuf.StringValue);    
 }
 
-message Course {
-    string name = 1;
-    int32 assignments = 2;
-    repeated AssignmentWeight assignment_weights = 3;
-}
-
-message CourseCode {
-    string code = 1;
-}
-
-message CourseAssessor {
-    string code = 1;
-    string assessor = 2;
+message Assignment {
+    string assignmentCode = 1;
+    float weight = 2;
 }
 
 message User {
-    string username = 1;
-    string password = 2;
-    Profile profile = 3;
+    string userId = 1;
+    string firstName = 2;
+    string lastName = 3;
+    string email = 4;
+    string profile = 5;
+}
+
+message SubmitedAssignment {
+    Course course = 1;
+    repeated string userId = 2;
+    string content = 3;
+    bool marked = 4;
+}
+
+message Mark {
+    repeated string userId = 1;
+    Course course = 2;
+    int32 mark = 3;
+}
+
+message Course {
+    string courseCode = 1;
+    int32 number_of_assignments = 2;//Might have to comment out
+    repeated Assignment assignments = 3;
+}
+
+message CourseAssessor {
+    string courseCode = 1;
+    string assessor = 2;
 }
 
 enum Profile {
     ADMINISTRATOR = 0;
     ASSESSOR = 1;
     LEARNER = 2;
-}
-
-message Assignment {
-    string course_code = 1;
-    string username = 2;
-    string content = 3;
-}
-
-message AssignmentWeight {
-    string name = 1;
-    int32 weight = 2;
-}
-
-message Mark {
-    string course_code = 1;
-    string username = 2;
-    int32 mark = 3;
 }

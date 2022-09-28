@@ -1,5 +1,5 @@
 [package]
-distribution = "slbeta3"
+distribution = "2201.1.1"
 
 [build-options]
 observabilityIncluded = true
