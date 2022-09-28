@@ -1,0 +1,4 @@
+[[ballerina.auth.users]]
+username="Tengee"
+password="NUST@Katjiuongua2000"
+scopes=["admin"]
