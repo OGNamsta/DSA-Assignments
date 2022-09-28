@@ -3,6 +3,12 @@ org = "tengee"
 name = "Problem3"
 version = "0.1.0"
 distribution = "2201.1.1"
+org="tengee"
+description="client"
+authors=["Tengee"]
+repository="https://github.com/OGNamsta/DSA-Assignments"
+maintainer="Tengee"
+maintainer_email="tengeevandu@live.co.uk"
 
 [build-options]
 observabilityIncluded = true

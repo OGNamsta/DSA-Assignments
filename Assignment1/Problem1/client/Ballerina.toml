@@ -1,5 +1,13 @@
 [package]
 distribution = "2201.1.1"
+name="client"
+version="1.0.0"
+org="tengee"
+description="client"
+authors=["Tengee"]
+repository="https://github.com/OGNamsta/DSA-Assignments"
+maintainer="Tengee"
+maintainer_email="tengeevandu@live.co.uk"
 
 [build-options]
 observabilityIncluded = true
