@@ -1,0 +1,1075 @@
+{
+	"info": {
+		"_postman_id": "870e72ad-155b-4000-8603-788ff7b555c0",
+		"name": "A Virtual Learning Application API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14351052"
+	},
+	"item": [
+		{
+			"name": "students",
+			"item": [
+				{
+					"name": "{username}",
+					"item": [
+						{
+							"name": "Get a single upser",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/students/:username",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"students",
+										":username"
+									],
+									"variable": [
+										{
+											"key": "username",
+											"value": "esse Duis in proident consectetur",
+											"description": "(Required) username of the Student"
+										}
+									]
+								},
+								"description": "Returns a single Student based on the username"
+							},
+							"response": [
+								{
+									"name": "Student response",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/students/:username",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"students",
+												":username"
+											],
+											"variable": [
+												{
+													"key": "username",
+													"value": "esse Duis in proident consectetur",
+													"description": "(Required) username of the Student"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"username\": \"aliquip laborum\",\n  \"firstname\": \"in nisi\",\n  \"lastname\": \"laborum sit non ullamco in\",\n  \"email\": \"officia\"\n}"
+								},
+								{
+									"name": "Untitled Example",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/students/:username",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"students",
+												":username"
+											],
+											"variable": [
+												{
+													"key": "username",
+													"value": "esse Duis in proident consectetur",
+													"description": "(Required) username of the Student"
+												}
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "Update an existing Student",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"aliquip laborum\",\n  \"firstname\": \"in nisi\",\n  \"lastname\": \"laborum sit non ullamco in\",\n  \"email\": \"officia\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/students/:username",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"students",
+										":username"
+									],
+									"variable": [
+										{
+											"key": "username",
+											"value": "esse Duis in proident consectetur",
+											"description": "(Required) username of the Student"
+										}
+									]
+								},
+								"description": "updates an existing Student"
+							},
+							"response": [
+								{
+									"name": "Student was successfully updated",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"username\": \"aliquip laborum\",\n  \"firstname\": \"in nisi\",\n  \"lastname\": \"laborum sit non ullamco in\",\n  \"email\": \"officia\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/students/:username",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"students",
+												":username"
+											],
+											"variable": [
+												{
+													"key": "username",
+													"value": "esse Duis in proident consectetur",
+													"description": "(Required) username of the Student"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"username\": \"aliquip laborum\",\n  \"firstname\": \"in nisi\",\n  \"lastname\": \"laborum sit non ullamco in\",\n  \"email\": \"officia\"\n}"
+								},
+								{
+									"name": "Untitled Example",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"username\": \"aliquip laborum\",\n  \"firstname\": \"in nisi\",\n  \"lastname\": \"laborum sit non ullamco in\",\n  \"email\": \"officia\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/students/:username",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"students",
+												":username"
+											],
+											"variable": [
+												{
+													"key": "username",
+													"value": "esse Duis in proident consectetur",
+													"description": "(Required) username of the Student"
+												}
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "Delete an existing Student",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/students/:username",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"students",
+										":username"
+									],
+									"variable": [
+										{
+											"key": "username",
+											"value": "esse Duis in proident consectetur",
+											"description": "(Required) username of the Student"
+										}
+									]
+								},
+								"description": "deletes an existing Student"
+							},
+							"response": [
+								{
+									"name": "Student was successfully deleted",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/students/:username",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"students",
+												":username"
+											],
+											"variable": [
+												{
+													"key": "username",
+													"value": "esse Duis in proident consectetur",
+													"description": "(Required) username of the Student"
+												}
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Untitled Example",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/students/:username",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"students",
+												":username"
+											],
+											"variable": [
+												{
+													"key": "username",
+													"value": "esse Duis in proident consectetur",
+													"description": "(Required) username of the Student"
+												}
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Get all students added to the application",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/students",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"students"
+							]
+						},
+						"description": "Returns all students registered for the application"
+					},
+					"response": [
+						{
+							"name": "A list of students",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/students",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"students"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n  {\n    \"username\": \"deserunt sit\",\n    \"firstname\": \"irure amet consequat Lorem\",\n    \"lastname\": \"nisi fugiat\",\n    \"email\": \"ipsum proid\"\n  },\n  {\n    \"username\": \"enim commodo velit\",\n    \"firstname\": \"ut qui occaecat\",\n    \"lastname\": \"non elit\",\n    \"email\": \"ir\"\n  }\n]"
+						},
+						{
+							"name": "Untitled Example",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/students",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"students"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Insert a new Student",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"TengeevanduK\",\n  \"firstname\": \"Tengeevandu\",\n  \"lastname\": \"Katjiuongua\",\n  \"email\": \"tengeevandu@live.co.uk\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/students",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"students"
+							]
+						},
+						"description": "Create a new Student and add it to the collection of students"
+					},
+					"response": [
+						{
+							"name": "Student successfully created",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"aliquip laborum\",\n  \"firstname\": \"in nisi\",\n  \"lastname\": \"laborum sit non ullamco in\",\n  \"email\": \"officia\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/students",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"students"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"Studentid\": \"sunt dolore\"\n}"
+						},
+						{
+							"name": "Untitled Example",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"username\": \"aliquip laborum\",\n  \"firstname\": \"in nisi\",\n  \"lastname\": \"laborum sit non ullamco in\",\n  \"email\": \"officia\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/students",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"students"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "coursedetails",
+			"item": [
+				{
+					"name": "{course code}",
+					"item": [
+						{
+							"name": "Get a single course",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/coursedetails/:course_code",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"coursedetails",
+										":course_code"
+									],
+									"variable": [
+										{
+											"key": "course_code",
+											"value": "DSA621S",
+											"description": "(Required) course code of the Course"
+										}
+									]
+								},
+								"description": "Returns a single Course based on the code"
+							},
+							"response": [
+								{
+									"name": "Course response",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/coursedetails/:course_code",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"coursedetails",
+												":course_code"
+											],
+											"variable": [
+												{
+													"key": "course_code",
+													"value": "esse Duis in proident consectetur",
+													"description": "(Required) course code of the Course"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"course_code\": \"DSA621S\",\n  \"course_name\": \"Distributed Systems and Applications\",\n  \"course_mark\": \"B+\"\n}"
+								},
+								{
+									"name": "Untitled Example",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/coursedetails/:course_code",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"coursedetails",
+												":course_code"
+											],
+											"variable": [
+												{
+													"key": "course_code",
+													"value": "esse Duis in proident consectetur",
+													"description": "(Required) course code of the Course"
+												}
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "Update an existing Course",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"course_code\": \"PTM721S\",\n  \"course_name\": \"Project Management Edit\",\n  \"course_mark\": \"B-\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/coursedetails/:course_code",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"coursedetails",
+										":course_code"
+									],
+									"variable": [
+										{
+											"key": "course_code",
+											"value": "PMT721S",
+											"description": "(Required) course code of the Course"
+										}
+									]
+								},
+								"description": "updates an existing Course"
+							},
+							"response": [
+								{
+									"name": "Course was successfully updated",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"course_code\": \"DSA621S\",\n  \"course_name\": \"Distributed Systems and Applications\",\n  \"course_mark\": \"B+\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/coursedetails/:course_code",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"coursedetails",
+												":course_code"
+											],
+											"variable": [
+												{
+													"key": "course_code",
+													"value": "esse Duis in proident consectetur",
+													"description": "(Required) course code of the Course"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"course_code\": \"DSA621S\",\n  \"course_name\": \"Distributed Systems and Applications\",\n  \"course_mark\": \"B+\"\n}"
+								},
+								{
+									"name": "Untitled Example",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"course_code\": \"DSA621S\",\n  \"course_name\": \"Distributed Systems and Applications\",\n  \"course_mark\": \"B+\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/coursedetails/:course_code",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"coursedetails",
+												":course_code"
+											],
+											"variable": [
+												{
+													"key": "course_code",
+													"value": "esse Duis in proident consectetur",
+													"description": "(Required) course code of the Course"
+												}
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "Delete an existing Course",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/coursedetails/:course_code",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"coursedetails",
+										":course_code"
+									],
+									"variable": [
+										{
+											"key": "course_code",
+											"value": "DSA621S",
+											"description": "(Required) course code of the Course"
+										}
+									]
+								},
+								"description": "deletes an existing Course"
+							},
+							"response": [
+								{
+									"name": "Course was successfully deleted",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/coursedetails/:course_code",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"coursedetails",
+												":course_code"
+											],
+											"variable": [
+												{
+													"key": "course_code",
+													"value": "esse Duis in proident consectetur",
+													"description": "(Required) course code of the Course"
+												}
+											]
+										}
+									},
+									"status": "No Content",
+									"code": 204,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "Untitled Example",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/coursedetails/:course_code",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"coursedetails",
+												":course_code"
+											],
+											"variable": [
+												{
+													"key": "course_code",
+													"value": "esse Duis in proident consectetur",
+													"description": "(Required) course code of the Course"
+												}
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Get all course details added to the application",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{baseUrl}}/coursedetails",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"coursedetails"
+							]
+						},
+						"description": "Returns all courses registered for the application"
+					},
+					"response": [
+						{
+							"name": "A list of courses",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/coursedetails",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"coursedetails"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "[\n  {\n    \"course_code\": \"DSA621S\",\n    \"course_name\": \"Distributed Systems and Applications\",\n    \"course_mark\": \"B+\"\n  },\n  {\n    \"course_code\": \"DSA621S\",\n    \"course_name\": \"Distributed Systems and Applications\",\n    \"course_mark\": \"B+\"\n  }\n]"
+						},
+						{
+							"name": "Untitled Example",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/coursedetails",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"coursedetails"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Insert a new course",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"course_code\": \"DSA621S\",\n  \"course_name\": \"Distributed Systems\",\n  \"course_mark\": \"A+\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/coursedetails",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"coursedetails"
+							]
+						},
+						"description": "Create a new course and add it to the collection of courses"
+					},
+					"response": [
+						{
+							"name": "Course successfully created",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"course_code\": \"DSA621S\",\n  \"course_name\": \"Distributed Systems and Applications\",\n  \"course_mark\": \"B+\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/coursedetails",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"coursedetails"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"Courseid\": \"deserunt\"\n}"
+						},
+						{
+							"name": "Untitled Example",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"course_code\": \"DSA621S\",\n  \"course_name\": \"Distributed Systems and Applications\",\n  \"course_mark\": \"B+\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/coursedetails",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"coursedetails"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:8080/vle/api/v1",
+			"type": "string"
+		}
+	]
+}
