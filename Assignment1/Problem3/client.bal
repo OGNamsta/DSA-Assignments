@@ -14,7 +14,7 @@ public isolated client class Client {
         self.clientEp = httpEp;
         return;
     }
-    # Get all students added to the application
+    # Get all students added to the application Types:Types:Student[]
     #
     # + return - A list of students 
     remote isolated function getAllStudents() returns Types:Student[]|error {
