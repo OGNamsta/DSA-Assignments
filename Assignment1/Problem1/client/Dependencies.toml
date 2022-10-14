@@ -335,7 +335,7 @@ modules = [
 [[package]]
 org = "tengee"
 name = "client"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
 	{org = "ballerina", name = "grpc"},
 	{org = "ballerina", name = "http"},
