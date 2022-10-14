@@ -1,0 +1,90 @@
+syntax = "proto3";
+import "google/protobuf/wrappers.proto";
+
+
+/*create_courses, where an administrator creates several courses, defines the number of assignments for each course and sets the weight for each assignment. This operation returns the code for each created course. It is bidirectional streaming;
+* assign_courses, where an administrator assigns each created course to an assessor;
+* create_users, where several users, each with a specific profile, are created. The users are streamed to the server, and the response is returned once the operation completes;
+* submit_assignments, where a learner submits one or several assignments for one or multiple courses he/she registered for. The assignments are streamed to the server, and the response is received once the operation completes;
+* request_assignments, where an assessor requests submitted assignments for a course he/she has been allocated. Note that an assignment can be marked only once. The function should stream back all assignments that have not been marked yet;
+* submit_marks, where an assessor submits the marks for assignments;
+* register, where a learner registers for one or several courses. All the courses are streamed to the server, and the result is returned once the operation completes;
+*/
+
+service Course {
+    rpc create_courses(stream CourseMessage) returns (stream google.protobuf.StringValue);
+    rpc assign_courses(AssignCoursesMessage) returns (google.protobuf.StringValue);
+    rpc create_users(stream UserMessage) returns (google.protobuf.StringValue);
+    rpc submit_assignments(stream SubmitAssignmentMessage) returns (google.protobuf.StringValue);
+    rpc request_assignments(google.protobuf.StringValue) returns (stream SubmittedAssignmentMessage);
+    rpc submit_marks(SubmitMarksMessage) returns (google.protobuf.StringValue);
+    rpc register(stream RegisterMessage) returns (stream google.protobuf.StringValue);
+}
+
+message CourseMessage {
+	string courseCode = 1;//name
+	int32 numberOfAssignments = 2;//message
+    string assignmentCode = 3;
+    float weight = 4;
+}
+
+message UserMessage {
+    string userId = 1;
+    string firstName = 2;
+    string lastName = 3;
+    string email = 4;
+    string profile = 5;
+}
+
+message SubmitAssignmentMessage {
+    string submissionId = 1;
+    string userId = 2; //repeated
+    string courseCode = 3;//repeated
+    //CourseMessage course = 2;
+    string content = 4;
+    bool marked = 5;
+}
+
+message SubmittedAssignmentMessage {
+    SubmitAssignmentMessage subass = 1;
+}
+
+message AssignCoursesMessage {
+    // repeated string userId = 1;//assessorId
+    // CourseMessage course = 2; //courseCode
+    string courseCode = 1;
+    string assessorId = 2;
+}
+
+message SubmitMarksMessage {
+    string submissionId = 1;
+    float marks = 2;
+}
+
+message CourseSelection {
+    repeated string courseCode = 1;
+    string courseName = 2;
+}
+
+message RegisterMessage {
+    // repeated string userId = 1;
+    // repeated string courses = 2; 
+    string userId = 1;
+    string courses = 2;
+}
+message AssignmentMessage {
+    string assignmentCode = 1;
+    string content = 2;
+    bool marked = 3;
+}
+
+message Assignment {
+    string assignmentCode = 1;
+    float weight = 2;
+}
+
+enum Profile {
+    ADMINISTRATOR = 0;
+    ASSESSOR = 1;
+    LEARNER = 2;
+}
